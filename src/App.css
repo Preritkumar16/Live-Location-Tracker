@@ -1,38 +1,110 @@
-.App {
+/* Reset & Base Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6fa;
+  color: #222;
+  padding: 20px;
   text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1, h2 {
+  color: #1a237e;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Info Box */
+.info-box {
+  background: #ffffff;
+  max-width: 500px;
+  margin: 0 auto 20px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.info-box p {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #515254;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px 8px 0;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #0c47b7;
+  transform: scale(1.05);
+}
+
+#toggleTheme {
+  background-color: #444;
+}
+
+#toggleTheme:hover {
+  background-color: #222;
+}
+
+/* Map Styling */
+#map {
+  width: 100%;
+  max-width: 1000px;
+  height: 500px;
+  margin: 30px auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode */
+.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark .info-box {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .btn {
+  background-color: #333;
+}
+
+.dark .btn:hover {
+  background-color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .info-box {
+    padding: 16px;
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
   }
-  to {
-    transform: rotate(360deg);
+
+  #map {
+    height: 400px;
   }
 }
