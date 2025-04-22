@@ -1,0 +1,55 @@
+def scan_disk_scheduling(requests, head, direction, disk_size):
+    requests.sort()
+    seek_sequence = []
+    seek_time = 0
+
+    left = [r for r in requests if r < head]
+    right = [r for r in requests if r >= head]
+
+    print("\nSeek Sequence:")
+
+    if direction == "left":
+        for r in reversed(left):
+            seek_sequence.append(r)
+            seek_time += abs(head - r)
+            head = r
+        if left:
+            seek_time += head  # go to 0
+            head = 0
+        for r in right:
+            seek_sequence.append(r)
+            seek_time += abs(head - r)
+            head = r
+
+    elif direction == "right":
+        for r in right:
+            seek_sequence.append(r)
+            seek_time += abs(head - r)
+            head = r
+        if right:
+            seek_time += (disk_size - 1 - head)
+            head = disk_size - 1
+        for r in reversed(left):
+            seek_sequence.append(r)
+            seek_time += abs(head - r)
+            head = r
+    else:
+        print("Invalid direction! Use 'left' or 'right'.")
+        return
+
+    print(" -> ".join(map(str, seek_sequence)))
+    print(f"\nTotal Seek Time: {seek_time}")
+
+# ----- Input -----
+requests_input = input("Enter disk requests (space-separated): ")
+requests = list(map(int, requests_input.strip().split()))
+head = int(input("Enter initial head position: "))
+direction = input("Enter direction (left/right): ").strip().lower()
+disk_size = int(input("Enter total disk size: "))
+
+# Run SCAN algorithm
+scan_disk_scheduling(requests, head, direction, disk_size)
+#Enter disk requests (space-separated): 98 183 37 122 14 124 65 67
+#Enter initial head position: 53
+#Enter direction (left/right): right
+#Enter total disk size: 200

@@ -1,0 +1,56 @@
+import threading
+import time
+import random
+
+# Number of philosophers
+N = 5
+
+# How many times each philosopher eats
+EAT_COUNT =1
+
+# Create a semaphore for each fork
+forks = [threading.Semaphore(1) for _ in range(N)]
+
+# Philosopher function
+def philosopher(phil_id):
+    left = phil_id
+    right = (phil_id + 1) % N
+
+    for i in range(EAT_COUNT):
+        print(f"Philosopher {phil_id} is thinking... [{i+1}]")
+        time.sleep(random.uniform(1, 2))  # Thinking
+
+        print(f"Philosopher {phil_id} is hungry... [{i+1}]")
+
+        # To avoid deadlock, pick up the lower-numbered fork first
+        first, second = (left, right) if left < right else (right, left)
+
+        forks[first].acquire()
+        print(f"Philosopher {phil_id} picked up fork {first}")
+
+        forks[second].acquire()
+        print(f"Philosopher {phil_id} picked up fork {second}")
+
+        print(f"Philosopher {phil_id} is eating... [{i+1}]")
+        time.sleep(random.uniform(1, 2))  # Eating
+
+        forks[second].release()
+        print(f"Philosopher {phil_id} put down fork {second}")
+
+        forks[first].release()
+        print(f"Philosopher {phil_id} put down fork {first}")
+
+    print(f"Philosopher {phil_id} is done eating.")
+
+# Start the simulation
+if __name__ == "__main__":
+    philosophers = []
+    for i in range(N):
+        t = threading.Thread(target=philosopher, args=(i,))
+        philosophers.append(t)
+        t.start()
+
+    for t in philosophers:
+        t.join()
+
+    print("\nSimulation complete: All philosophers are full 🍝")

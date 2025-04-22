@@ -1,0 +1,39 @@
+def lru_page_replacement(pages, capacity):
+    memory = []
+    page_faults = 0
+    page_hits = 0
+    recent_usage = {}
+
+    print("\nPage\tStatus\t\tMemory")
+    print("-" * 35)
+
+    for time, page in enumerate(pages):
+        if page in memory:
+            page_hits += 1
+            status = "Hit"
+        else:
+            page_faults += 1
+            status = "Fault"
+            if len(memory) < capacity:
+                memory.append(page)
+            else:
+                # Find least recently used page
+                lru_page = min(recent_usage, key=recent_usage.get)
+                lru_index = memory.index(lru_page)
+                memory[lru_index] = page
+                del recent_usage[lru_page]
+
+        recent_usage[page] = time
+        print(f"{page}\t{status}\t\t{memory}")
+
+    print(f"\nTotal Page Faults: {page_faults}")
+    print(f"Total Page Hits: {page_hits}")
+
+# --------- User Input ----------
+pages_input = input("Enter page reference string (space-separated): ")
+pages = list(map(int, pages_input.strip().split()))
+capacity = int(input("Enter number of frames: "))
+
+lru_page_replacement(pages, capacity)
+#Enter page reference string (space-separated): 7 0 1 2 0 3 0 4 2 3 0 3
+#Enter number of frames: 3
